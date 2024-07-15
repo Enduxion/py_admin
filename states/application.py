@@ -13,6 +13,11 @@ class SysApplication(State):
         "instance": Application_.Calculator
       },
       {
+        "name": "Rover",
+        "key": "R",
+        "instance": Application_.Explorer
+      },
+      {
         "name": "Back",
         "key": "B",
         "instance": None
