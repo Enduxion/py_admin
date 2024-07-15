@@ -1,6 +1,9 @@
 from states.state import State
 from utils.gui import displayer, clear
 from utils.operations import lis
+from sympy import sympify
+
+from math import factorial
 
 class Calculator(State):
   def __init__(self, user):
@@ -46,11 +49,15 @@ class Calculator(State):
       
       if dec == "b":
         break
+
+      if dec == "o":
+        self.other()
+        continue
       
       for menu_item in self._menu_list:
         if menu_item["key"].lower() == dec:
           menu_item["func"]()
-          print("Press any key to continue...")
+          print("Press any key to continue (alphanumeric)...")
           lis()
           break
 
@@ -94,9 +101,27 @@ class Calculator(State):
 
   def other(self):
     def literal_calc():
-      pass
-    def factorial():
-      pass
+      try:
+        literal = input("Literal: ")
+        converted_literal = sympify(literal)
+        print(f"Answer: {converted_literal.evalf()}")
+      except (ValueError, SyntaxError):
+        print("Invalid mathematical expression")
+    def other_factorial():
+      try:
+        num1 = int(input("Integer: "))
+        print(f"Factorial: {factorial(num1)}")
+      except ValueError:
+        print("Not a number")
+        return
+
+    def power():
+      num1, num2 = self.ask_num()
+      print(f"Power: {num1 ** num2}")
+    def root():
+      num1, num2 = self.ask_num()
+      print(f"Root: {num1 ** (1/num2)}")
+
     other_menu_items = [
       {
         "name": "Calculate from literal",
@@ -106,9 +131,37 @@ class Calculator(State):
       {
         "name": "Factorial",
         "key": "F",
-        "func": factorial
+        "func": other_factorial
       },
       {
-        "name": ""
+        "name": "Power",
+        "key": "P",
+        "func": power
+      },
+      {
+        "name": "Root",
+        "key": "R",
+        "func": root
+      },
+      {
+        "name": "Back",
+        "key": "B",
+        "func": None
       }
     ]
+
+    while True:
+      displayer(other_menu_items)
+
+      dec = lis()
+      if dec == "b":
+        break
+
+      for menu_item in other_menu_items:
+        if menu_item["key"].lower() == dec:
+          clear()
+          menu_item["func"]()
+          print("Press any key to continue (alphanumeric)...")
+          lis()
+          break
+
