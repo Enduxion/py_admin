@@ -18,6 +18,11 @@ class SysApplication(State):
         "instance": Application_.Explorer
       },
       {
+        "name": "Text Editor",
+        "key": "T",
+        "instance": Application_.TextEditor
+      },
+      {
         "name": "Back",
         "key": "B",
         "instance": None

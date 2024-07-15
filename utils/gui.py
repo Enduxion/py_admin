@@ -22,10 +22,13 @@ def launcher(menu_dicts: list, quit_key: str, props) -> None:
       for menu_dict in menu_dicts:
         if menu_dict['key'].lower() == dec:
           name_of_app = menu_dict['name']
-          menu_dict['instance'](props).run()
-    except AttributeError:
-      print(f"Faulty App: {name_of_app}\nNo run method")
-      exit(-1)
+
+          instance_ = menu_dict['instance'](props)
+          if 'run' in menu_dict['instance'].__dict__:
+            instance_.run()
+          else:
+            print(f"Faulty App: {name_of_app}\nNo run method")
+            exit(-1)
     except Exception as err:
       print(f"Faulty App: {name_of_app}\n{err}")
       exit(-1)

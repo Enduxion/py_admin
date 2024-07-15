@@ -15,9 +15,7 @@ class Explorer(State):
       os.mkdir(self._main_dir_path)
 
   def list_dir(self, dirPath: str):
-    clear()
-    print("|| Enter :q to quit ||\n|| Enter :b to go up a dir ||\n|| Enter :n to create new file ||\n|| Enter :m to make a new dir ||\n||\n||Enter :r to delete file/folder ||\n|| Enter the name of the file/folder to view it ||", "-"*20, sep="\n")
-
+    print("-"*20)
     try:
       for file in os.listdir(dirPath):
         item_path = os.path.join(dirPath, file)
@@ -64,12 +62,50 @@ class Explorer(State):
 
       if not os.path.isfile(filePath):
         with open(filePath, 'w'):
-          return
+          return name
       else:
         print('File with filename already exists')
         lis()
         continue
-      
+
+  def _helper_file_saver(self) -> str:
+    while True:
+      clear()
+      print("|| Enter :q to quit ||\n|| Enter :b to go up a dir ||\n|| Enter the name of the folder to view it ||\n|| Enter :s to save the file here ||")
+      self.list_dir(self.currentDirPath)
+      dec = input()
+      if dec == ":q":
+        return None
+      elif dec == ":b" and self.currentDirPath != self._main_dir_path:
+        self.currentDirPath = os.path.dirname(self.currentDirPath)
+      elif dec == ":s":
+        return self.currentDirPath
+      elif dec in os.listdir(self.currentDirPath):
+        # if the input is a folder
+        if os.path.isdir(os.path.join(self.currentDirPath, dec)):
+          self.currentDirPath = os.path.join(self.currentDirPath, dec)
+
+  def _helper_file_selector(self) -> str:
+    while True:
+      clear()
+      print("|| Enter :q to quit ||\n|| Enter :b to go up a dir ||\n|| Enter the name of the folder to view it ||\n|| Enter the name of the file to select it ||")
+      self.list_dir(self.currentDirPath)
+      dec = input()
+      if dec == ":q":
+        return None
+      elif dec == ":b" and self.currentDirPath != self._main_dir_path:
+        self.currentDirPath = os.path.dirname(self.currentDirPath)
+      elif dec == ":s":
+        return self.currentDirPath
+      elif dec in os.listdir(self.currentDirPath):
+        # if the input is a file
+        if os.path.isfile(os.path.join(self.currentDirPath, dec)):
+          self.currentDirPath = os.path.join(self.currentDirPath, dec)
+          return self.currentDirPath
+        # if the input is a folder
+        if os.path.isdir(os.path.join(self.currentDirPath, dec)):
+          self.currentDirPath = os.path.join(self.currentDirPath, dec)
+
   def make_folder(self, dirPath):
     invalid_names = {'CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'}
     while True:
@@ -96,6 +132,9 @@ class Explorer(State):
 
   def run(self):
     while True:
+      clear()
+      print("|| Enter :q to quit ||\n|| Enter :b to go up a dir ||\n|| Enter :n to create new file ||\n|| Enter :m to make a new dir ||\n|| Enter :r to delete file/folder ||\n|| Enter the name of the file/folder to view it ||")
+
       self.list_dir(self.currentDirPath)
       dec = input()
 
