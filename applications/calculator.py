@@ -93,8 +93,22 @@ class Calculator(State):
       print("Cannot divide by zero")
 
   def other(self):
-    def r():
-      print(r)
-      lis()
-
-    r()
+    def literal_calc():
+      pass
+    def factorial():
+      pass
+    other_menu_items = [
+      {
+        "name": "Calculate from literal",
+        "key": "L",
+        "func": literal_calc
+      },
+      {
+        "name": "Factorial",
+        "key": "F",
+        "func": factorial
+      },
+      {
+        "name": ""
+      }
+    ]
