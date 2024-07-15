@@ -9,6 +9,8 @@ class Explorer(State):
     self.id = user["_id"]
     self._main_dir_path = f"usr/{self.id}"
     self.currentDirPath = f"usr/{self.id}"
+    if not os.path.isdir("usr"):
+      os.mkdir("usr")
     if not os.path.isdir(self._main_dir_path):
       os.mkdir(self._main_dir_path)
 
