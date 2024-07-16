@@ -1,5 +1,6 @@
 from states.state import State
 from states.application import Application
+from states.environments import Environments
 from utils.gui import launcher
 
 class MainMenu(State):
@@ -10,6 +11,11 @@ class MainMenu(State):
         "name": "Application",
         "key": "a",
         "instance": Application
+      },
+      {
+        "name": "Environments",
+        "key": "e",
+        "instance": Environments
       },
       {
         "name": "Shut down",
